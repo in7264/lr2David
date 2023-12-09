@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+    <title>DES Encryption and Decryption</title>
+</head>
+<body>
+
+<h2>DES Encryption and Decryption</h2>
+<textarea id="inputText" placeholder="Enter text to encrypt"></textarea>
+<button onclick="encryptDES()">Encrypt</button>
+<textarea id="outputText" placeholder="Encrypted text"></textarea>
+<button onclick="decryptDES()">Decrypt</button>
+<textarea id="decryptedText" placeholder="Decrypted text"></textarea>
+
+<script>
+    function encryptDES() {
+        const inputText = document.getElementById("inputText").value;
+        const key = "0123456789abcdef"; // 128-bit key (16 characters)
+        const encrypted = CryptoJS.DES.encrypt(inputText, CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+
+        document.getElementById("outputText").value = encrypted.toString();
+    }
+
+    function decryptDES() {
+        const encryptedText = document.getElementById("outputText").value;
+        const key = "0123456789abcdef"; // 128-bit key (16 characters)
+        const decrypted = CryptoJS.DES.decrypt({
+            ciphertext: CryptoJS.enc.Base64.parse(encryptedText)
+        }, CryptoJS.enc.Hex.parse(key), {
+            mode: CryptoJS.mode.ECB,
+            padding: CryptoJS.pad.Pkcs7
+        });
+
+        document.getElementById("decryptedText").value = decrypted.toString(CryptoJS.enc.Utf8);
+    }
+</script>
+
+</body>
+</html>
